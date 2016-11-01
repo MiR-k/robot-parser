@@ -17,16 +17,13 @@ public class ReaderWriter {
 
     public List<String> reader(String pathToFile) {
 
-        StringBuilder sb = new StringBuilder();
         File file = new File(pathToFile);
         try {
             BufferedReader in = new BufferedReader(new FileReader(file.getAbsoluteFile()));
             try {
                 String s;
                 while ((s = in.readLine()) != null) {
-                    sb.append(s);
-                    sb.append("\n");
-                    fileInList.add(s);
+                    fileInList.add(s.replace("\t","   "));
                 }
             } finally {
                 in.close();

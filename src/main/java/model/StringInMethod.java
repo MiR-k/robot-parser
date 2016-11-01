@@ -240,7 +240,7 @@ public class StringInMethod extends RobotSuite {
 
 
     private String findMethodAndArgument(String oneString) {
-        oneString = oneString.trim().replace("\t","");
+        oneString = oneString.trim();
         Pattern pattern = Pattern.compile("^((\\w+\\s{1})*\\s+(SEPARATOR=)?)");
         Matcher matcher = pattern.matcher(oneString);
         String methodName = "";
@@ -252,9 +252,9 @@ public class StringInMethod extends RobotSuite {
                 start = matcher.end();
                 parseString(valueVariable);
             }
-        }
-        if (methodName.length() == 0 && Pattern.matches(".*(\\s\\w+)*$", oneString)) {
-            methodName = oneString;
+            if (methodName.length() == 0 && Pattern.matches(".*(\\s\\w+)*$", oneString)) {
+                methodName = oneString;
+            }
         }
         if (methodName.equals("createList")) {
             methodName = "asList";
