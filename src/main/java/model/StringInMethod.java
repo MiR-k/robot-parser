@@ -248,8 +248,12 @@ public class StringInMethod extends RobotSuite {
         if (!convertLogicalExpression(oneString)) {
             while (matcher.find(start)) {
                 methodName = oneString.substring(matcher.start(), matcher.end());
+
                 String valueVariable = oneString.substring(matcher.end(), oneString.length()).trim();
                 start = matcher.end();
+                if (methodName.trim().equals("Set Variable") && (valueVariable.contains("${") && valueVariable.contains("}"))){
+                    valueVariable = valueVariable.replace("${", "   ${").replace("}", "}   ").replace("}   ]", "}]");
+                }
                 parseString(valueVariable);
             }
             if (methodName.length() == 0 && Pattern.matches(".*(\\s\\w+)*$", oneString)) {
