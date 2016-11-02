@@ -193,7 +193,7 @@ public class Tests extends RobotSuite{
 
 
     private int getId(String oneString) {
-        Pattern pattern = Pattern.compile("\\d+");
+        Pattern pattern = Pattern.compile("\\d{3,7}");
         Matcher matcher = pattern.matcher(oneString);
         int start = 0;
         int result = 0;
