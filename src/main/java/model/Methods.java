@@ -167,8 +167,14 @@ public class Methods extends RobotSuite {
         if (t.getReturned()) {
             strRetun = "String";
         }
+        String printArgument = "";
+        if(t.getArgument() == null){
+            printArgument = "() {";
+        } else {
+            printArgument = t.getArgument();
+        }
         return "@Step\n" +
-                "    public " + strRetun + " " + t.getName() + t.getArgument();
+                "    public " + strRetun + " " + t.getName() + printArgument;
 
     }
 }

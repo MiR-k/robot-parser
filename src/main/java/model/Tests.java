@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Solit on 24.10.2016.
  */
-public class Tests extends RobotSuite{
+public class Tests extends RobotSuite {
 
     private StringInMethod stringInMethod;
 
@@ -24,52 +24,52 @@ public class Tests extends RobotSuite{
 
     private int numberTest = 0;
 
-    public Tests(){
+    public Tests() {
     }
 
-    public Tests(String name){
+    public Tests(String name) {
         this.name = name;
     }
 
-    public Tests(Tests tests){
+    public Tests(Tests tests) {
         this.name = tests.getName();
         this.descrition = tests.getDescrition();
         this.strings = tests.getStrings();
         this.id = tests.getId();
     }
 
-    public Tests(String name, String argument, List<StringInMethod> strings){
+    public Tests(String name, String argument, List<StringInMethod> strings) {
         this.name = name;
         this.descrition = argument;
         this.strings = strings;
     }
 
-    public Tests(int id, String name){
+    public Tests(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setName(String value){
+    public void setName(String value) {
         this.name = value;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public void setStrings(List<StringInMethod> strings){
+    public void setStrings(List<StringInMethod> strings) {
         this.strings = strings;
     }
 
-    public List<StringInMethod> getStrings(){
+    public List<StringInMethod> getStrings() {
         return this.strings;
     }
 
-    public String getValue(){
+    public String getValue() {
         return this.name;
     }
 
-    public void setValue(String val){
+    public void setValue(String val) {
         this.name = name;
     }
 
@@ -90,10 +90,10 @@ public class Tests extends RobotSuite{
         return id;
     }
 
-    public String printTest(List<Tests> localTestList){
+    public String printTest(List<Tests> localTestList) {
         String result = "";
         result += " //#---Start Tests Section \n";
-        for (Tests oneTest: localTestList){
+        for (Tests oneTest : localTestList) {
             String meta = testMeta(oneTest);
             result += meta + "\n";
             result += printStringInMethod(oneTest);
@@ -109,7 +109,7 @@ public class Tests extends RobotSuite{
         for (String stringVar : strTestsList) {
             String temp;
             if (stringVar.contains("#")) {
-                temp = stringVar.replace("#-", " //-").replace("# "," //");
+                temp = stringVar.replace("#-", " //-").replace("# ", " //");
             } else {
                 stringVar = stringVar.replaceAll("[\\s]{2,}", "");
                 temp = stringVar.replace("${", "private static String ").replace("}", " = \"");
@@ -120,7 +120,7 @@ public class Tests extends RobotSuite{
         return testList;
     }
 
-    public List<Tests> parseToTest(List<String> strTestsList){
+    public List<Tests> parseToTest(List<String> strTestsList) {
 
         for (String oneString : strTestsList) {
             workWithString(oneString);
@@ -160,7 +160,7 @@ public class Tests extends RobotSuite{
         }
     }
 
-    public String testsToString(List<Tests> testsOfList){
+    public String testsToString(List<Tests> testsOfList) {
 
 
         return null;
@@ -168,21 +168,21 @@ public class Tests extends RobotSuite{
 
     // private methods
 
-    private String printStringInMethod(Tests t){
+    private String printStringInMethod(Tests t) {
         stringInMethod = new StringInMethod();
         String result = "";
         result += stringInMethod.printStringsInMethod(t.getStrings());
         return result;
     }
 
-    private String testMeta(Tests t){
+    private String testMeta(Tests t) {
         String description = "";
-        if(t.getDescrition() != null){
+        if (t.getDescrition() != null) {
             description = t.getDescrition();
         } else {
             description = getName();
         }
-        return  "@Test\n" +
+        return "@Test\n" +
                 "    @TestCaseId(\"C" + t.getId() + "\")\n" +
                 "    @Severity(SeverityLevel.NORMAL)\n" +
                 "    @Title(\"" + t.getName() + "\")\n" +
@@ -191,15 +191,14 @@ public class Tests extends RobotSuite{
     }
 
 
-
     private int getId(String oneString) {
         Pattern pattern = Pattern.compile("^(С|C)\\d+");
         Matcher matcher = pattern.matcher(oneString);
         int start = 0;
         int result = 0;
-        if(!oneString.contains("Configure Ufm Instance One")){
+        if (!oneString.contains("Configure Ufm Instance One")) {
             while (matcher.find(start)) {
-                String value = oneString.substring(matcher.start()+1, matcher.end());
+                String value = oneString.substring(matcher.start() + 1, matcher.end());
                 result = Integer.parseInt(value);
                 start = matcher.end();
             }

@@ -213,7 +213,7 @@ public class StringInMethod extends RobotSuite {
     private StringInMethod convertToStringMethod(String oneString) {
         String variable = "";
         String nextString = "";
-        oneString = oneString.trim();
+        oneString = checkSetVar(oneString.trim());
         if (oneString.startsWith("#")) {
             setMethodString(oneString.replaceAll("^\\#", " //"));
         } else {
@@ -238,6 +238,13 @@ public class StringInMethod extends RobotSuite {
         return this;
     }
 
+    private String checkSetVar(String oneString){
+        if(Pattern.matches("^\\$\\{(\\w|\\d)*\\}\\s+Set Variable.*", oneString)){
+            String tempString = oneString.substring(0, oneString.indexOf("}"));
+            oneString = tempString + "}=" + oneString.substring(oneString.indexOf("}")+1, oneString.length());
+        }
+        return oneString;
+    }
 
     private String findMethodAndArgument(String oneString) {
         oneString = oneString.trim();
