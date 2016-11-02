@@ -17,7 +17,7 @@ public class RobotSuite {
 
     boolean methodDetect = false;
     String regNameMethod = "(^[A-Z]{1}(\\w|\\d)*(\\s(\\w|\\d)*)*$)";
-    String regexNameTest = "(^(С|C)\\d*\\:.*$)|(Configure Ufm Instance One)";
+    String regexNameTest = "(^(С|C)\\d+\\:.*$)|(Configure Ufm Instance One)";
     String regexIdTest = "(^(С|C)\\d*\\:)";
     String regexArgument = "(^\\s*\\[Arguments\\](.*)$)";
     String regexComent = "(^((\\s*\\#\\s)|(\\s*\\#-))).*";

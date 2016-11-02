@@ -193,13 +193,13 @@ public class Tests extends RobotSuite{
 
 
     private int getId(String oneString) {
-        Pattern pattern = Pattern.compile("\\d{3,7}");
+        Pattern pattern = Pattern.compile("^(С|C)\\d+");
         Matcher matcher = pattern.matcher(oneString);
         int start = 0;
         int result = 0;
         if(!oneString.contains("Configure Ufm Instance One")){
             while (matcher.find(start)) {
-                String value = oneString.substring(matcher.start(), matcher.end());
+                String value = oneString.substring(matcher.start()+1, matcher.end());
                 result = Integer.parseInt(value);
                 start = matcher.end();
             }
