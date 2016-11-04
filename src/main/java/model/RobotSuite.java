@@ -16,7 +16,7 @@ import org.apache.commons.lang3.text.WordUtils;
 public class RobotSuite {
 
     boolean methodDetect = false;
-    String regNameMethod = "(^[A-Z]{1}(\\w|\\d)*(\\s(\\w|\\d)*)*$)";
+    String regNameMethod = "(^[A-Z]{1}(\\w|\\d)*(\\s(\\'|\\w|\\d)*)*$)";
     String regexNameTest = "(^(С|C)\\d+\\:.*$)|(Configure Ufm Instance One)";
     String regexIdTest = "(^(С|C)\\d*\\:)";
     String regexArgument = "(^\\s*\\[Arguments\\](.*)$)";
@@ -137,13 +137,13 @@ public class RobotSuite {
         test = new Tests();
         method = new Methods();
         String printResult = "";
-        if(getLocalVariables().size() != 0){
+        if(!getLocalVariables().isEmpty()){
             printResult += localVariable.printLocalVariable(getLocalVariables());
         }
-        if(getTests().size() != 0){
+        if(!getTests().isEmpty()){
             printResult += test.printTest(getTests());
         }
-        if(getMethods().size() != 0){
+        if(!getMethods().isEmpty()){
             printResult += method.printMethod(getMethods());
         }
         return "package com.peterservice.ufm.test;\n" +
@@ -251,7 +251,7 @@ public class RobotSuite {
             name = name.replaceAll("ufm_control_functions", "");
         }
         if (name.length() > 0){
-            name = name.replaceAll("\\.", " ").replaceAll("_", " ").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "");
+            name = name.replaceAll("\\.", " ").replaceAll("_", " ").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'","");
             String methodName = WordUtils.capitalize(name).replaceAll(" ", "").replaceAll("'", "")
                     .replaceAll("<", "Less").replaceAll(">", "Greater").replaceAll(",", "");
             if(methodName.length() > 0) {

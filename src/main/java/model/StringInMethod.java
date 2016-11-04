@@ -292,7 +292,7 @@ public class StringInMethod extends RobotSuite {
         if (argument.size() > 0 && nextSting.length() > 0) {
             argument.add(nextSting);
         }
-        if (oneString.length() != 0 && argument.size() == 0) {
+        if (oneString.length() != 0 && argument.isEmpty()) {
             argument.add(varName);
         }
         setArgumentOfMethod(argument);
@@ -316,7 +316,7 @@ public class StringInMethod extends RobotSuite {
         } else {
             result = false;
         }
-        if (tempList.size() != 0) {
+        if (!tempList.isEmpty()) {
             setArgumentOfMethod(tempList);
         }
         return result;

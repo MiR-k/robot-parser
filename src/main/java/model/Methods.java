@@ -1,5 +1,7 @@
 package model;
 
+import com.google.common.base.Strings;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -99,7 +101,7 @@ public class Methods extends RobotSuite {
             if (isNewMethod) {
                 isNewMethod = false;
             } else {
-                if (getName().length() != 0 || methodsList.size() != 0) {
+                if (!Strings.isNullOrEmpty(getName()) || !methodsList.isEmpty()) {
                     setMethodsList();
                 }
             }
@@ -112,12 +114,13 @@ public class Methods extends RobotSuite {
     }
 
     private void setMethodsList() {
-        if (stringsList.size() != 0) {
+        if (!stringsList.isEmpty()) {
             List<StringInMethod> tempList = new LinkedList<StringInMethod>(stringsList);
             setStrings(tempList);
             methodsList.add(new Methods(this));
             stringsList.clear();
             isReturned = false;
+            this.argument = null;
             numberMethod++;
         }
     }
@@ -168,7 +171,7 @@ public class Methods extends RobotSuite {
             strRetun = "String";
         }
         String printArgument = "";
-        if(t.getArgument() == null){
+        if(t.getArgument() == null || t.getArgument().length() == 0){
             printArgument = "() {";
         } else {
             printArgument = t.getArgument();

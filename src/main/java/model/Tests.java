@@ -136,7 +136,7 @@ public class Tests extends RobotSuite {
             if (isNewTest) {
                 isNewTest = false;
             } else {
-                if (getName().length() != 0 || testsList.size() != 0) {
+                if (getName().length() != 0 || !testsList.isEmpty()) {
                     setTestList();
                 }
             }
@@ -151,7 +151,7 @@ public class Tests extends RobotSuite {
 
 
     private void setTestList() {
-        if (stringsList.size() != 0) {
+        if (!stringsList.isEmpty()) {
             List<StringInMethod> tempList = new LinkedList<StringInMethod>(stringsList);
             setStrings(tempList);
             testsList.add(new Tests(this));
