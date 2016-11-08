@@ -143,7 +143,7 @@ public class Tests extends RobotSuite {
             setName(formatMethodName(getName(string)));
             setId(getId(string));
         } else if (Pattern.matches(regexDescription, string)) {
-            setDescrition(string.replace("[Documentation]", "").replace("}", ") {").trim());
+            setDescrition(formatDescription(string));
         } else {
             stringsList.add(stringInMethod.convertStringMethod(string));
         }

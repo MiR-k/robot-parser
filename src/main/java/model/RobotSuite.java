@@ -243,7 +243,7 @@ public class RobotSuite {
         return presentString;
     }
 
-    protected static String formatMethodName(String name) {
+    protected String formatMethodName(String name) {
         if(name.contains("keywords")){
             name = name.split("keywords")[1];
         }
@@ -257,6 +257,14 @@ public class RobotSuite {
             if(methodName.length() > 0) {
                 return Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
             }
+        }
+        return name;
+    }
+
+    protected static String formatDescription(String name) {
+        if (name.length() > 0){
+            name = name.replace("[Documentation]", "").trim().replace("}", ") {").replaceAll("\\.", " ").replaceAll("_", " ")
+                    .replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'","").replace("\"","\\\"");
         }
         return name;
     }
