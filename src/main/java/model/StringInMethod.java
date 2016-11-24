@@ -70,9 +70,6 @@ public class StringInMethod extends RobotSuite {
         String result = "";
 
         for (StringInMethod oneString : listStringMethod) {
-            if (oneString.getVariable() != null && !checkExistence(result, oneString.getVariable())) {
-                result += typeOfVariable(oneString.getVariable());
-            }
             result += printOneString(oneString) + " \n";
         }
         return result;
@@ -84,6 +81,9 @@ public class StringInMethod extends RobotSuite {
 
     public String printOneString(StringInMethod stringMethod) {
         String result = "";
+        if (stringMethod.getVariable() != null && !checkExistence(result, stringMethod.getVariable())) {
+            result += typeOfVariable(stringMethod.getVariable());
+        }
         if (stringMethod.getVariable() != null) {
             if (!stringMethod.getVariable().contains("List")) {
                 result += String.format("%s = ", formatVariable(stringMethod.getVariable()));
@@ -92,7 +92,11 @@ public class StringInMethod extends RobotSuite {
         if (stringMethod.getMethodString() != null) {
             if (stringMethod.getMethodString().equals("setVariable") || stringMethod.getMethodString().contains("catenate")
                     || stringMethod.getMethodString().contains("evaluate") || stringMethod.getMethodString().contains("return")) {
+
                 result += printWithoutMethod(stringMethod.getArgumentOfMethod(), stringMethod.getMethodString());
+                if (result.startsWith("int") || result.startsWith("long")){
+                    result = result.replace("\"","");
+                }
                 return result + "\n";
             } else {
                 result += String.format("%s ", stringMethod.getMethodString());
@@ -127,8 +131,29 @@ public class StringInMethod extends RobotSuite {
                 result += String.format(" %s,", formatPrintString(variables.get(i)));
             }
         }
-        return result;
+        return formatStep(result);
     }
+
+    private String formatStep(String presentString) {
+        StringBuffer result = new StringBuffer(presentString);
+        Pattern pattern = Pattern.compile(".*(\\( testId, \\\"\\d{1,2}\\\",).*");
+        Matcher matcher = pattern.matcher(result);
+
+        int start = 0;
+        String firstString = "";
+        String secondString = "";
+        while (matcher.find(start)) {
+            firstString = result.substring(0, result.indexOf("\""));
+            secondString = result.substring(result.indexOf("\"")+1, result.length());
+            firstString += secondString.substring(0, secondString.indexOf("\""));
+            secondString = secondString.substring(secondString.indexOf("\"")+1, secondString.length());
+            start = matcher.end();
+            result = new StringBuffer(firstString + secondString);
+        }
+        start = 0;
+        return result.toString();
+    }
+
 
     private String printWithoutMethod(List<String> variables, String methodName) {
         String result = "";
