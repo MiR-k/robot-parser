@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class LocalVariable  extends RobotSuite{
 
-    private static String PREF_VARIABLE = "private static String %s = ";
+    private static String PREF_VARIABLE = "protected static String %s = ";
 
     private String nameVariable;
 
