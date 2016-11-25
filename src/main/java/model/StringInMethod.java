@@ -68,9 +68,14 @@ public class StringInMethod extends RobotSuite {
 
     public String printStringsInMethod(List<StringInMethod> listStringMethod) {
         String result = "";
-
+        boolean isExist = false;
         for (StringInMethod oneString : listStringMethod) {
-            result += printOneString(oneString) + " \n";
+            if (oneString.getVariable() != null && !checkExistence(result, oneString.getVariable())) {
+                isExist = true;
+            } else {
+                isExist = false;
+            }
+            result += printOneString(oneString, isExist) + " \n";
         }
         return result;
     }
@@ -79,9 +84,9 @@ public class StringInMethod extends RobotSuite {
         return checkedString.contains(var.replace("${", "").replace("}", ""));
     }
 
-    public String printOneString(StringInMethod stringMethod) {
+    public String printOneString(StringInMethod stringMethod, boolean isExist) {
         String result = "";
-        if (stringMethod.getVariable() != null && !checkExistence(result, stringMethod.getVariable())) {
+        if (stringMethod.getVariable() != null && isExist) {
             result += typeOfVariable(stringMethod.getVariable());
         }
         if (stringMethod.getVariable() != null) {
@@ -94,8 +99,8 @@ public class StringInMethod extends RobotSuite {
                     || stringMethod.getMethodString().contains("evaluate") || stringMethod.getMethodString().contains("return")) {
 
                 result += printWithoutMethod(stringMethod.getArgumentOfMethod(), stringMethod.getMethodString());
-                if (result.startsWith("int") || result.startsWith("long")){
-                    result = result.replace("\"","");
+                if (result.startsWith("int") || result.startsWith("long")) {
+                    result = result.replace("\"", "");
                 }
                 return result + "\n";
             } else {
@@ -144,9 +149,9 @@ public class StringInMethod extends RobotSuite {
         String secondString = "";
         while (matcher.find(start)) {
             firstString = result.substring(0, result.indexOf("\""));
-            secondString = result.substring(result.indexOf("\"")+1, result.length());
+            secondString = result.substring(result.indexOf("\"") + 1, result.length());
             firstString += secondString.substring(0, secondString.indexOf("\""));
-            secondString = secondString.substring(secondString.indexOf("\"")+1, secondString.length());
+            secondString = secondString.substring(secondString.indexOf("\"") + 1, secondString.length());
             start = matcher.end();
             result = new StringBuffer(firstString + secondString);
         }
@@ -263,10 +268,10 @@ public class StringInMethod extends RobotSuite {
         return this;
     }
 
-    private String checkSetVar(String oneString){
-        if(Pattern.matches("^\\$\\{(\\w|\\d)*\\}\\s+Set Variable.*", oneString)){
+    private String checkSetVar(String oneString) {
+        if (Pattern.matches("^\\$\\{(\\w|\\d)*\\}\\s+Set Variable.*", oneString)) {
             String tempString = oneString.substring(0, oneString.indexOf("}"));
-            oneString = tempString + "}=" + oneString.substring(oneString.indexOf("}")+1, oneString.length());
+            oneString = tempString + "}=" + oneString.substring(oneString.indexOf("}") + 1, oneString.length());
         }
         return oneString;
     }
@@ -283,7 +288,7 @@ public class StringInMethod extends RobotSuite {
 
                 String valueVariable = oneString.substring(matcher.end(), oneString.length()).trim();
                 start = matcher.end();
-                if (methodName.trim().equals("Set Variable") && (valueVariable.contains("${") && valueVariable.contains("}"))){
+                if (methodName.trim().equals("Set Variable") && (valueVariable.contains("${") && valueVariable.contains("}"))) {
                     valueVariable = valueVariable.replace("${", "   ${").replace("}", "}   ").replace("}   ]", "}]");
                 }
                 parseString(valueVariable);

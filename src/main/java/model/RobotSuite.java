@@ -28,7 +28,7 @@ public class RobotSuite {
     static String FEATURES = "\"UFM\"";
     static String BASECLASS = "BaseTest";
 
-    public void setDescriptionForSuite(String autor, String features, String baseClass){
+    public void setDescriptionForSuite(String autor, String features, String baseClass) {
         this.AUTOR = autor;
         this.FEATURES = features;
         this.BASECLASS = baseClass;
@@ -70,7 +70,7 @@ public class RobotSuite {
         this.source = source;
     }
 
-    private String formatSource(String sting){
+    private String formatSource(String sting) {
         String fileName = sting.substring(sting.lastIndexOf("\\") + 1);
         fileName = fileName.replaceAll("\\d+_", "").replaceAll("_", " ").replaceAll(".*\\\\test\\\\", "").replaceAll(".robot", "");
         fileName = WordUtils.capitalize(fileName).replaceAll(" ", "");
@@ -132,18 +132,18 @@ public class RobotSuite {
         return printRobotClass();
     }
 
-    private String printRobotClass(){
+    private String printRobotClass() {
         localVariable = new LocalVariable();
         test = new Tests();
         method = new Methods();
         String printResult = "";
-        if(!getLocalVariables().isEmpty()){
+        if (!getLocalVariables().isEmpty()) {
             printResult += localVariable.printLocalVariable(getLocalVariables());
         }
-        if(!getTests().isEmpty()){
+        if (!getTests().isEmpty()) {
             printResult += test.printTest(getTests());
         }
-        if(!getMethods().isEmpty()){
+        if (!getMethods().isEmpty()) {
             printResult += method.printMethod(getMethods());
         }
         return "package com.peterservice.ufm.test;\n" +
@@ -164,27 +164,26 @@ public class RobotSuite {
                 "import static org.testng.Assert.assertNotEquals;\n" +
                 "\n" +
                 "/**\n" +
-                " * Created by " + AUTOR + " on " + formatter.format(date) +"\n" +
+                " * Created by " + AUTOR + " on " + formatter.format(date) + "\n" +
                 " */\n" +
                 "\n" +
                 "//old path - " + getSource() + "\n" +
                 "\n" +
-                "@Features({"+ FEATURES +"})//todo : place all check result in methods\n" +
+                "@Features({" + FEATURES + "})//todo : place all check result in methods\n" +
                 "@Stories({\"" + formatSource(getSource()) + "\"})\n" +
-                "public class " + formatSource(getSource()) + " extends " + BASECLASS +" {\n" +
+                "public class " + formatSource(getSource()) + " extends " + BASECLASS + " {\n" +
                 "\n" +
                 "" + printResult + "\n}";
     }
 
     //need review
     @Deprecated
-    private String fileName(){
+    private String fileName() {
         return this.getSource();
     }
 
 
-
-    private void convertToLists(List<String>  fileInList) {
+    private void convertToLists(List<String> fileInList) {
         boolean isVariable = false;
         boolean isMethod = false;
         boolean isTest = false;
@@ -227,34 +226,34 @@ public class RobotSuite {
     static StringInMethod stringInMethod = new StringInMethod();
 
     //#section protected
-    protected String inNameNumberToEnd(String presentString){
+    protected String inNameNumberToEnd(String presentString) {
 
         Pattern pattern = Pattern.compile("^\\d*");
         Matcher matcher = pattern.matcher(presentString);
         int start = 0;
-        if (Pattern.matches("^\\d+\\w*", presentString)){
+        if (Pattern.matches("^\\d+\\w*", presentString)) {
             while (matcher.find(start)) {
                 String startString = presentString.substring(matcher.start(), matcher.end());
                 String endString = presentString.substring(matcher.end(), presentString.length());
                 start = matcher.end();
-                presentString = endString+startString;
+                presentString = endString + startString;
             }
         }
         return presentString;
     }
 
     protected String formatMethodName(String name) {
-        if(name.contains("keywords")){
+        if (name.contains("keywords")) {
             name = name.split("keywords")[1];
         }
-        if(name.contains("ufm_control_functions")){
+        if (name.contains("ufm_control_functions")) {
             name = name.replaceAll("ufm_control_functions", "");
         }
-        if (name.length() > 0){
-            name = name.replaceAll("\\.", " ").replaceAll("_", " ").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'","");
-            String methodName = WordUtils.capitalize(name).replaceAll(" ", "").replaceAll("'", "")
+        if (name.length() > 0) {
+            name = name.replaceAll("\\.", " ").replaceAll("_", " ").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'", "");
+            String methodName = WordUtils.capitalize(name).replaceAll(" ", "").replaceAll("'", "").replace("=", "Equally")
                     .replaceAll("<", "Less").replaceAll(">", "Greater").replaceAll(",", "");
-            if(methodName.length() > 0) {
+            if (methodName.length() > 0) {
                 return Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
             }
         }
@@ -262,9 +261,9 @@ public class RobotSuite {
     }
 
     protected static String formatDescription(String name) {
-        if (name.length() > 0){
+        if (name.length() > 0) {
             name = name.replace("[Documentation]", "").trim().replace("}", ") {").replaceAll("\\.", " ").replaceAll("_", " ")
-                    .replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'","").replace("\"","\\\"");
+                    .replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "").replace("'", "").replace("\"", "\\\"");
         }
         return name;
     }
