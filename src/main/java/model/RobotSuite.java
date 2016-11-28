@@ -301,6 +301,9 @@ public class RobotSuite {
         if (nameVariable.contains("List")) {
             return nameVariable;
         }
+        if(nameVariable.contains("Date")){
+            return "Date ";
+        }
         return "String ";
     }
 

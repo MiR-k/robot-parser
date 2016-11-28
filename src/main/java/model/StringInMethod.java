@@ -116,6 +116,9 @@ public class StringInMethod extends RobotSuite {
         if (stringMethod.getArgumentOfMethod() != null && stringMethod.getMethodString() == null) {
             result += printMethodVariable(stringMethod.getArgumentOfMethod());
         }
+        if (result.contains("convertTestId")){
+            result = result.replace("convertTestId", "calcCommands.convertTestId");
+        }
         return result;
     }
 
@@ -141,7 +144,7 @@ public class StringInMethod extends RobotSuite {
 
     private String formatStep(String presentString) {
         StringBuffer result = new StringBuffer(presentString);
-        Pattern pattern = Pattern.compile(".*(\\( testId, \\\"\\d{1,2}\\\",).*");
+        Pattern pattern = Pattern.compile(".*(\\( testId, \\\"\\d{1,2}\\\",?).*");
         Matcher matcher = pattern.matcher(result);
 
         int start = 0;
@@ -150,8 +153,10 @@ public class StringInMethod extends RobotSuite {
         while (matcher.find(start)) {
             firstString = result.substring(0, result.indexOf("\""));
             secondString = result.substring(result.indexOf("\"") + 1, result.length());
-            firstString += secondString.substring(0, secondString.indexOf("\""));
-            secondString = secondString.substring(secondString.indexOf("\"") + 1, secondString.length());
+            if(secondString.length() != 0){
+                firstString += secondString.substring(0, secondString.indexOf("\""));
+                secondString = secondString.substring(secondString.indexOf("\"") + 1, secondString.length());
+            }
             start = matcher.end();
             result = new StringBuffer(firstString + secondString);
         }
