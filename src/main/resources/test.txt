@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          ../../../../resource/common.robot
+
+*** Variables ***
+${BUS_CCM_EXECUTE_USER}         USER_NAME
+
+*** Test Cases ***
+C4671260: some test case case
+    [Documentation]     test description
+    [Tags]      POSITIVE
+    ${poId}=      Generate Po Id
+    Add Product Offering File       ${poId}
+
+*** Keywords ***
+Generate Po Id
+    [Return]    1
+
+Add Product Offering File
+    [Arguments]    ${testId}
+    # do something
