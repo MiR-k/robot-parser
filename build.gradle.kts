@@ -1,7 +1,6 @@
 plugins {
     java
     `maven-publish`
-    kotlin("plugin.lombok") version "1.7.21"
     id("io.freefair.lombok") version "6.3.0"
 }
 

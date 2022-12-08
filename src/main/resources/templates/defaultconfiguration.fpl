@@ -1,0 +1,8 @@
+<#assign myHash = { "name": "mouse", "price": 50 }>
+<#list myHash?keys as k>
+  ${k}
+
+</#list>
+[
+    ${replays.join(",","")!"{}"}
+]

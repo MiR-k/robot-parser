@@ -1,0 +1,9 @@
+{% if object.getClass().getSimpleName().equals("Test") %}
+    @Test
+    @TestCaseId("C{{ object.getTestId() }}")
+    @Severity(SeverityLevel.{{ object.getSeverity() }})
+    {% if object.getTestTitle() != null %}@Title("{{ object.getTestTitle() }}") {% endif %}
+    {% if object.getDescription() != null %}@Description("{{ object.getDescription() }}") {% endif %}
+{% else %}
+    @Step
+{% endif %}

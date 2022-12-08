@@ -1,0 +1,23 @@
+SELECT DS.SKU_ID FROM ATGCATA.DCS_SKU DS 
+INNER JOIN ATGCATA.SEPH_SKU_MCS B ON DS.SKU_ID = B.SKU_ID 
+INNER JOIN ATGCORE.DCS_INVENTORY ST ON DS.SKU_ID = ST.CATALOG_REF_ID
+INNER JOIN ATGCATA.SEPH_SKU P_SKU ON DS.SKU_ID = P_SKU.SKU_ID
+INNER JOIN ATGCATA.SEPH_SKU_FLAGS F ON DS.SKU_ID = F.SKU_ID
+inner join ATGCATA.dcs_product dp on p_sku.primary_product_id = dp.product_id 
+INNER JOIN ATGCATA.SEPH_PRODUCT PR ON pr.product_id = dp.product_id 
+INNER join ATGCATA.seph_brand sb on PR.BRAND_ID = sb.brand_id
+WHERE PR.is_enabled = 1 and F.is_enabled = 1 
+and (ds.end_date is null or ds.end_date >= sysdate)
+and p_sku.temp_deactivation is null 
+and exists(select catalog_ref_id from ATGCORE.dcs_inventory t1 where t1.catalog_ref_id = ST.catalog_ref_id AND stock_level > 3 and on_hold = 0 and COUNTRY_CODE='US') 
+and st.avail_status = 1004 
+and P_SKU.SKU_STATE = 0 
+and p_sku.primary_product_id is not null 
+and pr.temporary_deactive_dt is null 
+and (dp.end_date is null or dp.end_date >= sysdate) 
+and sb.enabled = 1 
+and (sb.end_date is null or sb.end_date >= sysdate) 
+AND P_SKU.sku_type = 0 AND DS.SKU_ID not in (SELECT sku_id FROM ATGCORE.seph_bi_reward)AND f.is_hazmat < > 1 AND pr.sephora_product_template = '200006' and ds.sku_id not in (select ssc.sku_id from ATGCATA.seph_sku_countrycode ssc where ssc.country_code_id = '10001') and pr.sephora_product_template = '200006' 
+and exists(select sku_id from ATGCATA.seph_sku_statecode
+JOIN ATGCATA.seph_state_code on ATGCATA.seph_sku_statecode.state_code_id = ATGCATA.seph_state_code.state_code_id where sku_id=P_SKU.SKU_ID and STATE_NAME = 'California')
+and f.is_store_only = '0' and f.is_bi_only = 0 and not exists( select 1 from ATGCATA.SEPH_SKU_COUNTRYCODE sku_restr_country where sku_restr_country.country_code_id in ('10001') and sku_restr_country.sku_id = ds.sku_id ) and not exists( select 1 from ATGCATA.SEPH_BRAND_COUNTRYCODE brand_restr_country where brand_restr_country.country_code_id in ('10001') and brand_restr_country.brand_id = pr.brand_id ) AND DS.SKU_ID in (select sku_id from ATGCATA.Seph_sku_flags where APP_EXCLUSIVE_OFFER = '0' or APP_EXCLUSIVE_OFFER is null)

@@ -1,1 +1,1 @@
-include("untitledjj")
+rootProject.name = "robot to java transformer"

@@ -1,0 +1,6 @@
+    {% for comment in object.getComments() %}
+    //{{ comment }}{% endfor %}
+    public {{ object.getReturnType().getSimpleName() }} {{ object.getMethodName() }}({{ printArgument }}) {
+    {% for body in object.getBody() %}
+    {{ body }}{% endfor %}
+    }
